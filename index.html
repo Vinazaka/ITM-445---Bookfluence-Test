@@ -745,7 +745,7 @@ img { max-width: 100%; display: block; }
     <h2 class="section-title">My Library</h2>
     <p class="section-subtitle" style="margin-bottom: 40px;">Your personal bookshelf.</p>
     <div class="library-tabs">
-      <button class="library-tab active" onclick="selectTab(this)">Currently Reading</button>
+      <button class="library-tab" onclick="selectTab(this)">Currently Reading</button>
       <button class="library-tab" onclick="selectTab(this)">Want to Read</button>
       <button class="library-tab" onclick="selectTab(this)">Finished</button>
     </div>
@@ -941,7 +941,7 @@ function selectTab(el) {
 
 function applyLibraryFilter() {
   document.querySelectorAll('#page-library .library-book').forEach(book => {
-    if (!currentLibraryFilter) {
+    if (currentLibraryFilter === null) {
       book.style.display = '';
     } else {
       book.style.display = (book.dataset.status === currentLibraryFilter) ? '' : 'none';
@@ -957,8 +957,10 @@ function setBookStatus(buttonEl, newStatus) {
   book.querySelectorAll('.library-status-btn').forEach(btn => btn.classList.remove('active'));
   buttonEl.classList.add('active');
 
-  if (currentLibraryFilter) applyLibraryFilter();
+  // Do NOT auto-filter when a per-book button is clicked.
+  // Filtering should only happen when the top filter tabs are clicked.
 }
+
 function selectQuizOption(el, isCorrect) {} // legacy placeholder
 
 // ===== FULL QUIZ ENGINE =====
