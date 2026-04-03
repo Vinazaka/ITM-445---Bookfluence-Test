@@ -163,7 +163,7 @@ img { max-width: 100%; display: block; }
 .hero-title em { color: #2D2D2D; font-style: italic; }
 .hero-desc { font-size: 18px; color: var(--gray-mid); line-height: 1.8; margin-bottom: 32px; max-width: 480px; opacity: 0; animation: fadeUp 0.8s 0.6s var(--ease) forwards; }
 .hero-actions { display: flex; gap: 16px; opacity: 0; animation: fadeUp 0.8s 0.8s var(--ease) forwards; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-family: var(--font-body); font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s var(--ease); }
+.btn { display: inline-flex; align-items: center; gap: 0px; padding: 14px 28px; border-radius: 10px; font-family: var(--font-body); font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s var(--ease); }
 .btn-primary { background: var(--pink); color: var(--charcoal); }
 .btn-primary:hover { background: var(--pink-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(248, 225, 225, 0.5); color: var(--charcoal); }
 .btn-secondary { background: transparent; color: var(--charcoal); border: 2px solid var(--charcoal); }
@@ -901,22 +901,22 @@ function showPage(pageId) {
 }
 window.addEventListener('scroll', () => { document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 10); });
 window.addEventListener('DOMContentLoaded', () => {
-  const activeLibraryTab = document.querySelector('#page-library .library-tab.active');
-  if (activeLibraryTab) selectTab(activeLibraryTab);
+  const activeTab = document.querySelector('#page-library .library-tab.active');
+  if (activeTab) selectTab(activeTab);
 });
 function selectTab(el) {
   document.querySelectorAll('.library-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
 
   const label = el.textContent.trim().toLowerCase();
-  let targetStatus = '';
-  if (label.includes('currently')) targetStatus = 'currently-reading';
-  else if (label.includes('want')) targetStatus = 'want-to-read';
-  else if (label.includes('finished')) targetStatus = 'finished';
+  let wanted = '';
+  if (label.includes('currently')) wanted = 'currently-reading';
+  else if (label.includes('want')) wanted = 'want-to-read';
+  else if (label.includes('finished')) wanted = 'finished';
 
   const books = document.querySelectorAll('#page-library .library-book');
   books.forEach(book => {
-    book.style.display = book.dataset.status === targetStatus ? '' : 'none';
+    book.style.display = book.dataset.status === wanted ? '' : 'none';
   });
 }
 function selectQuizOption(el, isCorrect) {} // legacy placeholder
