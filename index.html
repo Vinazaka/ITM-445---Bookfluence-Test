@@ -777,34 +777,9 @@ img { max-width: 100%; display: block; }
 
       <!-- Quiz Selection -->
       <div id="quiz-select">
-        <div class="books-grid" style="max-width: 700px; margin: 0 auto;">
-          <div class="book-card" onclick="startQuiz('midnight')" style="cursor: pointer;">
-            <div class="book-card-cover" style="background: linear-gradient(135deg, #264653, #2A9D8F); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">ðŸ“–</div>
-            <div class="book-card-info">
-              <div class="book-card-title">The Midnight Library</div>
-              <div class="book-card-author">5 Questions â€¢ By Matt Haig</div>
-              <span class="book-card-genre">Start Quiz â†’</span>
-            </div>
-          </div>
-          <div class="book-card" onclick="startQuiz('hailmary')" style="cursor: pointer;">
-            <div class="book-card-cover" style="background: linear-gradient(135deg, #6D597A, #B56576); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">ðŸ”®</div>
-            <div class="book-card-info">
-              <div class="book-card-title">Project Hail Mary</div>
-              <div class="book-card-author">5 Questions â€¢ By Andy Weir</div>
-              <span class="book-card-genre">Start Quiz â†’</span>
-            </div>
-          </div>
-          <div class="book-card" onclick="startQuiz('atomic')" style="cursor: pointer;">
-            <div class="book-card-cover" style="background: linear-gradient(135deg, #BC6C25, #DDA15E); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 40px;">ðŸ“š</div>
-            <div class="book-card-info">
-              <div class="book-card-title">Atomic Habits</div>
-              <div class="book-card-author">5 Questions â€¢ By James Clear</div>
-              <span class="book-card-genre">Start Quiz â†’</span>
-            </div>
-          </div>
-        </div>
+        <p style="text-align: center; color: var(--gray-mid); font-size: 14px; margin: 0 auto 24px; max-width: 620px;">Choose a title from your library and test yourself with a made-up companion quiz inspired by its world, characters, and lore.</p>
+        <div class="books-grid" id="quiz-book-grid" style="max-width: 940px; margin: 0 auto;"></div>
       </div>
-
       <!-- Active Quiz -->
       <div id="quiz-active" style="display: none;">
         <button onclick="exitQuiz()" style="background: none; border: none; font-family: var(--font-body); font-size: 14px; color: var(--teal); cursor: pointer; margin-bottom: 24px; font-weight: 600;">â† Back to Quiz Selection</button>
@@ -902,37 +877,78 @@ function selectQuizOption(el, isCorrect) {} // legacy placeholder
 
 // ===== FULL QUIZ ENGINE =====
 const quizData = {
-  midnight: {
-    title: "The Midnight Library",
+  words_left_unsaid: {
+    title: "Words We Left Unsaid",
     questions: [
-      { q: "What is the name of the librarian in the Midnight Library?", options: ["Mrs. Oak", "Mrs. Elm", "Mrs. Birch", "Mrs. Pine"], answer: 1 },
-      { q: "What is the main character's name?", options: ["Sara", "Emma", "Nora", "Clara"], answer: 2 },
-      { q: "What does each book in the library represent?", options: ["A different country", "A different time period", "A different life Nora could have lived", "A different person's story"], answer: 2 },
-      { q: "What was Nora's childhood dream career?", options: ["Astronaut", "Olympic swimmer", "Rock star", "Glaciologist"], answer: 3 },
-      { q: "What triggers Nora's visit to the Midnight Library?", options: ["A dream", "An overdose attempt", "A car accident", "A magical book"], answer: 1 }
+      { q: "What secret phrase do Mara and Elliot keep writing in the margins of old library books?", options: ["Meet me at midnight", "The truth lives in pencil", "Some silences are louder", "Keep this between pages"], answer: 2 },
+      { q: "Which place becomes the emotional center of the novel?", options: ["A rooftop greenhouse", "A train station cafe", "The town archive room", "A beach cottage"], answer: 2 },
+      { q: "What object finally reveals the misunderstanding between the two families?", options: ["A cracked cassette tape", "A returned letter", "An unsigned yearbook", "A silver key"], answer: 1 },
+      { q: "Why does Mara avoid finishing sentences around Elliot?", options: ["She is hiding a second identity", "She thinks he already knows what she means", "She is terrified of saying the wrong thing again", "She made a vow of silence"], answer: 2 },
+      { q: "How does the story close?", options: ["With a public apology at the archive", "With a note left in the last borrowed book", "With Elliot moving away forever", "With the archive burning down"], answer: 1 }
     ]
   },
-  hailmary: {
-    title: "Project Hail Mary",
+  what_the_lake_kept: {
+    title: "What The Lake Kept",
     questions: [
-      { q: "What is the main character's name?", options: ["Mark Watney", "Ryland Grace", "Rocky", "Steve Hail"], answer: 1 },
-      { q: "What is the name of the alien character?", options: ["Buzz", "Rocky", "Petra", "Aster"], answer: 1 },
-      { q: "What is Astrophage?", options: ["A spaceship", "A planet", "A micro-organism that eats stars", "A type of fuel"], answer: 2 },
-      { q: "What was Ryland Grace's job before the mission?", options: ["NASA scientist", "Middle school science teacher", "University professor", "Astronaut"], answer: 1 },
-      { q: "What star is being threatened by Astrophage?", options: ["Alpha Centauri", "Proxima Centauri", "Our Sun", "Sirius"], answer: 2 }
+      { q: "What appears on the lake each year during the fog festival?", options: ["A rowboat with no oars", "A line of floating lanterns", "A bell that rings underwater", "A cabin light in the mist"], answer: 3 },
+      { q: "What rumor drives June back to the lakeside town?", options: ["That the water level vanished overnight", "That her brother's watch was found near the old dock", "That the mayor sold the shoreline", "That strangers keep hearing singing from the reeds"], answer: 1 },
+      { q: "Which clue helps the group map the lake's hidden inlets?", options: ["A weather diary", "A fishing trophy", "A set of carved paddles", "A faded tourist brochure"], answer: 0 },
+      { q: "What does the lake seem to 'keep' throughout the novel?", options: ["Sunken valuables", "The town's unfinished grief", "A trapped storm", "Ancient statues"], answer: 1 },
+      { q: "What final choice does June make?", options: ["She leaves the town for good", "She drains part of the lake", "She tells the truth at the festival instead of protecting the myth", "She hides the map forever"], answer: 2 }
     ]
   },
-  atomic: {
-    title: "Atomic Habits",
+  crown_and_sword: {
+    title: "Crown & Sword",
     questions: [
-      { q: "According to James Clear, what percentage improvement daily leads to huge results?", options: ["5%", "1%", "10%", "0.5%"], answer: 1 },
-      { q: "What are the four laws of behavior change?", options: ["Think, Plan, Act, Review", "Cue, Craving, Response, Reward", "Start, Build, Maintain, Scale", "Want, Try, Do, Repeat"], answer: 1 },
-      { q: "What does Clear call the strategy of linking a new habit to an existing one?", options: ["Habit linking", "Habit stacking", "Habit chaining", "Habit pairing"], answer: 1 },
-      { q: "What type of habits does Clear argue are most effective?", options: ["Goal-based habits", "Time-based habits", "Identity-based habits", "Reward-based habits"], answer: 2 },
-      { q: "What does the 'two-minute rule' suggest?", options: ["Only exercise for 2 minutes", "Scale down any habit to take less than 2 minutes", "Wait 2 minutes before breaking a habit", "Meditate for 2 minutes daily"], answer: 1 }
+      { q: "What title is Rowan given after surviving the Trial of Embers?", options: ["Keeper of the West Gate", "The Ash Heir", "Swordbearer Prime", "The Uncrowned"], answer: 1 },
+      { q: "What makes the royal sword different from every other weapon in the kingdom?", options: ["It changes weight based on loyalty", "It can only be drawn during storms", "It was forged from fallen star-iron", "It carries the voices of former rulers"], answer: 3 },
+      { q: "Who is secretly helping Rowan inside the palace?", options: ["The court botanist", "Captain Elara", "A masked stablehand", "The queen's historian"], answer: 1 },
+      { q: "What sparks the alliance between rival houses in the third act?", options: ["A failed coronation feast", "An invading sea fleet", "A duel in the moon court", "The disappearance of the regent"], answer: 3 },
+      { q: "How is the central conflict resolved?", options: ["Rowan refuses the crown and rewrites the oath", "The sword is shattered in battle", "The regent escapes with the treasury", "The throne room is sealed forever"], answer: 0 }
+    ]
+  },
+  the_ninth_signal: {
+    title: "The Ninth Signal",
+    questions: [
+      { q: "What is the Ninth Signal believed to be at the start of the book?", options: ["A military distress code", "A ghost transmission", "A navigation bug", "A pirate broadcast"], answer: 1 },
+      { q: "Where does Sera first decode part of the transmission?", options: ["In an abandoned weather station", "On a commuter shuttle", "Inside the observatory relay tower", "In a flooded subway tunnel"], answer: 2 },
+      { q: "What pattern keeps appearing in the message fragments?", options: ["A lullaby in binary", "A countdown with no zero", "Coordinates to a dead satellite", "The same sentence spoken in nine voices"], answer: 3 },
+      { q: "Why does the city council try to suppress the discovery?", options: ["They think it will crash the grid", "They helped build the original experiment", "They want to auction the signal", "They fear mass panic during the eclipse"], answer: 1 },
+      { q: "What does the Ninth Signal ultimately turn out to be?", options: ["A message from another planet", "A backup memory loop from the city's first founders", "A trap built by smugglers", "A prank from pirate radio operators"], answer: 1 }
     ]
   }
 };
+
+function buildQuizSelection() {
+  const grid = document.getElementById('quiz-book-grid');
+  if (!grid) return;
+
+  const quizIds = Object.keys(quizData);
+  const libraryBooks = Array.from(document.querySelectorAll('#page-library .library-grid .library-book')).slice(0, quizIds.length);
+
+  grid.innerHTML = libraryBooks.map((book, index) => {
+    const quizId = quizIds[index];
+    const img = book.querySelector('img');
+    const cardParts = Array.from(book.children);
+    const title = cardParts[1] ? cardParts[1].textContent.trim() : quizData[quizId].title;
+    const author = cardParts[2] ? cardParts[2].textContent.trim() : 'BookFluence Library';
+    const cover = img ? img.src : '';
+    const alt = img ? img.alt : title;
+
+    return `
+      <div class="book-card" onclick="startQuiz('${quizId}')" style="cursor: pointer;">
+        <div class="book-card-cover" style="height: 220px; overflow: hidden; background: #f6f2ec;">
+          <img src="${cover}" alt="${alt}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <div class="book-card-info">
+          <div class="book-card-title">${title}</div>
+          <div class="book-card-author">5 Questions | By ${author}</div>
+          <span class="book-card-genre">Start Quiz -></span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 
 let currentQuiz = null;
 let currentQuestion = 0;
@@ -954,7 +970,6 @@ function renderQuestion() {
   const q = currentQuiz.questions[currentQuestion];
   answered = false;
 
-  // Progress dots
   let dots = '';
   for (let i = 0; i < currentQuiz.questions.length; i++) {
     if (i < currentQuestion) dots += '<div class="quiz-dot done"></div>';
@@ -962,7 +977,7 @@ function renderQuestion() {
     else dots += '<div class="quiz-dot"></div>';
   }
   document.getElementById('quiz-progress').innerHTML = dots;
-  document.getElementById('quiz-counter').textContent = `Question ${currentQuestion + 1} of ${currentQuiz.questions.length} â€” ${currentQuiz.title}`;
+  document.getElementById('quiz-counter').textContent = `Question ${currentQuestion + 1} of ${currentQuiz.questions.length} | ${currentQuiz.title}`;
   document.getElementById('quiz-question').textContent = q.q;
 
   let optionsHtml = '';
@@ -995,18 +1010,18 @@ function answerQuestion(selected) {
 
   if (selected === q.answer) {
     quizScore++;
-    feedback.textContent = 'âœ“ Correct! Well done.';
+    feedback.textContent = 'Correct! Well done.';
     feedback.style.color = '#4CAF50';
   } else {
-    feedback.textContent = 'âœ— Not quite. The correct answer is highlighted above.';
+    feedback.textContent = 'Not quite. The correct answer is highlighted above.';
     feedback.style.color = '#D4726A';
   }
   feedback.style.display = 'block';
 
   if (currentQuestion < currentQuiz.questions.length - 1) {
-    document.getElementById('quiz-next-btn').textContent = 'Next Question â†’';
+    document.getElementById('quiz-next-btn').textContent = 'Next Question ->';
   } else {
-    document.getElementById('quiz-next-btn').textContent = 'See Results â†’';
+    document.getElementById('quiz-next-btn').textContent = 'See Results ->';
   }
   document.getElementById('quiz-next-btn').style.display = 'inline-block';
 }
@@ -1027,20 +1042,20 @@ function showResults() {
   const total = currentQuiz.questions.length;
   const pct = quizScore / total;
 
-  let emoji, title, desc;
+  let icon, title, desc;
   if (pct === 1) {
-    emoji = 'ðŸ†'; title = 'Perfect Score!'; desc = 'You truly know this book inside and out. Impressive!';
+    icon = 'A+'; title = 'Perfect Score!'; desc = 'You ruled that quiz completely.';
   } else if (pct >= 0.8) {
-    emoji = 'ðŸŒŸ'; title = 'Excellent!'; desc = 'You really paid attention. Almost perfect!';
+    icon = 'AA'; title = 'Excellent!'; desc = 'You clearly remember the big twists and details.';
   } else if (pct >= 0.6) {
-    emoji = 'ðŸ“–'; title = 'Good Job!'; desc = 'You know your stuff, but there\'s room to reread a chapter or two.';
+    icon = 'OK'; title = 'Good Job!'; desc = 'Strong reading instincts with just a few details slipping away.';
   } else if (pct >= 0.4) {
-    emoji = 'ðŸ¤”'; title = 'Not Bad!'; desc = 'You remember some details. Maybe it\'s time for a reread?';
+    icon = 'HM'; title = 'Not Bad!'; desc = 'You have some of the story, but a reread would sharpen things up.';
   } else {
-    emoji = 'ðŸ“š'; title = 'Keep Reading!'; desc = 'Looks like this book deserves another visit. Give it another go!';
+    icon = 'RR'; title = 'Keep Reading!'; desc = 'This one may need another cozy trip back to page one.';
   }
 
-  document.getElementById('results-emoji').textContent = emoji;
+  document.getElementById('results-emoji').textContent = icon;
   document.getElementById('results-title').textContent = title;
   document.getElementById('results-desc').textContent = desc;
   document.getElementById('results-score').textContent = `${quizScore} / ${total}`;
@@ -1059,6 +1074,8 @@ function exitQuiz() {
   document.getElementById('quiz-active').style.display = 'none';
   document.getElementById('quiz-results').style.display = 'none';
 }
+
+buildQuizSelection();
 
 // Blog Filter
 function filterBlog(cat, btn) {
@@ -1253,3 +1270,6 @@ function exitRoom() {
 </script>
 </body>
 </html>
+
+
+
