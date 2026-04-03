@@ -236,11 +236,10 @@ img { max-width: 100%; display: block; }
 .library-book { text-align: center; cursor: pointer; transition: transform 0.3s var(--ease); }
 .library-book:hover { transform: translateY(-4px); }
 .library-cover { height: 220px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-.library-status-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 10px; }
-.library-status-btn { border: 1px solid var(--gray-border); background: var(--white); color: var(--charcoal); border-radius: 999px; padding: 6px 10px; font-family: var(--font-body); font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.25s var(--ease); }
-.library-status-btn:hover { background: var(--pink); border-color: var(--pink-dark); }
-.library-status-btn.active { background: var(--pink); border-color: var(--pink-dark); }
-
+.library-status-row { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-top:10px; }
+.library-status-btn { border:1px solid var(--gray-border); background:var(--white); color:var(--charcoal); border-radius:999px; padding:6px 10px; font-family:var(--font-body); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.25s var(--ease); }
+.library-status-btn:hover { background:var(--pink); border-color:var(--pink-dark); }
+.library-status-btn.active { background:var(--pink); border-color:var(--pink-dark); }
 
 /* ===== BLOG ARTICLE ===== */
 .blog-article { max-width: 750px; margin: 0 auto; }
@@ -962,7 +961,8 @@ function setBookStatus(buttonEl, newStatus) {
   book.querySelectorAll('.library-status-btn').forEach(btn => btn.classList.remove('active'));
   buttonEl.classList.add('active');
 
-  // Do not auto-filter here. Only top filter tabs should filter.
+  // Do not auto-filter here.
+  // Top filter tabs should be the only thing that changes which books are shown.
 }
 function selectQuizOption(el, isCorrect) {} // legacy placeholder
 
